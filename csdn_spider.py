@@ -2,7 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from datetime import datetime
-
+"""
+免责声明：
+1. 本项目仅供学习和研究使用，禁止用于商业用途
+2. 使用本代码产生的任何法律责任由使用者自行承担
+3. 请遵守网站的robots.txt规则和使用条款
+4. 建议限制爬取频率，避免对目标网站造成压力
+"""
 def get_article_content(url):
     """
     获取CSDN文章内容
