@@ -127,6 +127,17 @@ def get_article_content(url):
     except Exception as e:
         return None, None, None, f"发生错误：{str(e)}"
 
+
+# 添加 LOGO
+LOGO = """
+  _____  _____ ____  _   _    _____                    _           
+ / ____|/ ____|  _ \| \ | |  / ____|                  | |          
+| |    | (___ | | | |  \| | | |     _ __ __ _ _ __ ___| | ___ _ __ 
+| |     \___ \| | | | . ` | | |    | '__/ _` | '__/ __| |/ _ \ '__|
+| |____ ____) | |__| | |\  | | |____| | | (_| | | | (__| |  __/ |   
+ \_____|_____/|____/|_| \_|  \_____|_|  \__,_|_|  \___|_|\___|_|   
+"""
+
 def save_article_as_markdown(title, content, metadata, filename=None):
     """
     将文章保存为Markdown格式
@@ -139,7 +150,17 @@ def save_article_as_markdown(title, content, metadata, filename=None):
         # 清理标题中的非法字符，用作文件名
         filename = re.sub(r'[\\/:*?"<>|]', '', title)
         filename = f"{filename}.md"
-    
+
+        # 添加水印信息
+    watermark = f"""
+---
+> 本文由 CSDN Crawler 抓取自CSDN  
+> 原文作者: {metadata['author']}  
+> 原文链接: {metadata['source_url']}  
+> 项目地址: https://github.com/milksuger/csdn-crawler  
+> 抓取时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+"""
+
     markdown_content = f"""# {title}
 
 > 作者：{metadata['author']}  
@@ -154,13 +175,21 @@ def save_article_as_markdown(title, content, metadata, filename=None):
 
 ---
 
-> 本文由CSDN爬虫自动采集，如有侵权请联系删除。
+{watermark}
 """
     
     with open(filename, 'w', encoding='utf-8') as f:
         f.write(markdown_content)
 
+def print_logo():
+    """打印程序 logo"""
+    print(LOGO)
+    print("CSDN文章爬虫 v1.0.0")
+    print("作者: [CSDN-Crawler]")
+    print("=" * 50)
+
 if __name__ == '__main__':
+    print_logo()
     url = input("请输入CSDN文章链接：")
     title, content, metadata, error = get_article_content(url)
     
